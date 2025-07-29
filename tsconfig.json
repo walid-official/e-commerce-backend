@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                      // Modern JS output
+    "module": "CommonJS",                    // Compatible with Node.js (Express)
+    "lib": ["ES2020"],                       // Include built-in libs
+    "rootDir": "./src",                      // Source folder
+    "outDir": "./dist",                      // Compiled output folder
+    "strict": true,                          // Enable all strict checks
+    "esModuleInterop": true,                 // Allow import/export compatibility
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "moduleResolution": "Node",              // Classic Node resolution
+    "resolveJsonModule": true,
+    "sourceMap": true,                       // Generate source maps for debugging
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
