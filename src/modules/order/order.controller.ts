@@ -48,8 +48,6 @@ export const getAllOrdersController = async (req: AuthRequest, res: Response) =>
     if (!req.user || req.user.role !== "admin") {
       return res.status(403).json({ error: "Forbidden: Admins only" });
     }
-
-    // Fetch all orders with populated product details
     const orders = await Order.find().populate("items.productId", "name price image");
 
     res.status(200).json(orders);

@@ -25,8 +25,13 @@ export const addToCartService = async (userId: string, productId: string, quanti
   return await cart.save();
 };
 
-// Get user cart (with populated product details)
+
 export const getCartService = async (userId: string) => {
   const userObjectId = new mongoose.Types.ObjectId(userId);
   return await Cart.findOne({ userId: userObjectId }).populate("items.productId", "name price image");
+};
+
+export const deleteCartService = async (userId: string) => {
+  const userObjectId = new mongoose.Types.ObjectId(userId);
+  return await Cart.findOneAndDelete({ userId: userObjectId });
 };
