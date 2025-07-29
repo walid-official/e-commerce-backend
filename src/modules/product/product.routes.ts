@@ -4,7 +4,7 @@ import { authenticate } from "../../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.get("/", getProducts);
+router.get("/",  getProducts);
 
 router.get("/:id", authenticate, getProductById);
 
