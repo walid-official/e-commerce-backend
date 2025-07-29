@@ -8,12 +8,10 @@ export const addToCartController = async (req: AuthRequest, res: Response) => {
     if (!req.user?.id) {
       return res.status(401).json({ error: "Unauthorized" });
     }
-
     const { productId, quantity } = req.body;
     if (!productId || !quantity) {
       return res.status(400).json({ error: "Product ID and quantity are required" });
     }
-
     const cart = await addToCartService(req.user.id, productId, quantity);
     return res.status(200).json(cart);
   } catch (err) {
@@ -28,12 +26,10 @@ export const getCartController = async (req: AuthRequest, res: Response) => {
     if (!req.user?.id) {
       return res.status(401).json({ error: "Unauthorized" });
     }
-
     const cart = await getCartService(req.user.id);
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
-
     return res.status(200).json(cart);
   } catch (err) {
     console.error("Get cart error:", err);
@@ -41,6 +37,7 @@ export const getCartController = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// Delete Cart
 export const deleteCartController = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user?.id) return res.status(401).json({ error: "Unauthorized" });

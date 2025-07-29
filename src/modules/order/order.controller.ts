@@ -29,18 +29,15 @@ export const getUserOrdersController = async (req: AuthRequest, res: Response) =
     if (!req.user?.id) {
       return res.status(401).json({ error: "Unauthorized" });
     }
-
     const orders = await Order.find({ userId: req.user.id });
     if (!orders || orders.length === 0) {
       return res.status(404).json({ message: "No orders found" });
     }
-
     res.status(200).json(orders);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch orders" });
   }
 };
-
 
 export const getAllOrdersController = async (req: AuthRequest, res: Response) => {
   try {

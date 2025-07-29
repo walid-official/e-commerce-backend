@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { User } from "./User.model";
 import { generateToken } from "../../utils/jwt";
+import mongoose from "mongoose";
 
 const SALT_ROUNDS = 10;
 
@@ -27,4 +28,15 @@ export const login = async (emailOrPhone: string, password: string) => {
 
   const token = generateToken({ id: user._id, role: user.role });
   return { token, user };
+};
+
+// Fetch all users (for admin)
+export const getAllUsersService = async () => {
+  return await User.find().select("-password"); 
+};
+
+// Fetch logged-in user (by ID)
+export const getLoggedInUserService = async (userId: string) => {
+  const userObjectId = new mongoose.Types.ObjectId(userId);
+  return await User.findById(userObjectId).select("-password");
 };
