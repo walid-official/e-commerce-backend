@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getAllUsersService, getLoggedInUserService, login, signup } from "./user.service";
+import { getAllUsersService, getLoggedInUserService, login, signup, updatePasswordService } from "./user.service";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 
 export const signupController = async (req: Request, res: Response) => {
@@ -14,8 +14,26 @@ export const signupController = async (req: Request, res: Response) => {
 export const loginController = async (req: Request, res: Response) => {
   try {
     const { emailOrPhone, password } = req.body;
-    const { token, user } = await login(emailOrPhone, password);
-    res.json({ message: "Login successful", token, user });
+    if (!emailOrPhone || !password) {
+      return res.status(400).json({ error: 'Email or phone and password are required' });
+    }
+    const result = await login(emailOrPhone, password);
+    return res.status(200).json(result);
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+export const updatePasswordController = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user?.id || req.body.userId;
+    const { email, name, phone, newPassword } = req.body;
+
+    if (!userId) throw new Error("User ID is required");
+    if (!newPassword) throw new Error("New password is required");
+
+    const result = await updatePasswordService(userId, { email, name, phone, newPassword });
+    res.json(result);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }

@@ -2,7 +2,7 @@ import jwt, { Secret, SignOptions } from "jsonwebtoken";
 
 const JWT_SECRET: Secret = (process.env.JWT_SECRET ?? "supersecret") as Secret;
 
-export const generateToken = (payload: Record<string, unknown>, expiresIn: string = "7d"): string => {
+export const generateToken = (payload: Record<string, unknown>, expiresIn: string = "365d"): string => {
   const options: SignOptions = { expiresIn: expiresIn as any };
   return jwt.sign(payload, JWT_SECRET, options);
 };

@@ -4,6 +4,7 @@ import { Order } from "./order.model";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 
 export const createOrderController = async (req: AuthRequest, res: Response) => {
+  console.log(req.user)
   try {
     if (!req.user?.id) {
       return res.status(401).json({ error: "Unauthorized" });

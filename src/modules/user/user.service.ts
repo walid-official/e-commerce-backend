@@ -19,17 +19,40 @@ export const signup = async (userData: { name: string; email: string; phone: str
 };
 
 export const login = async (emailOrPhone: string, password: string) => {
-
   const user = await User.findOne({ $or: [{ email: emailOrPhone }, { phone: emailOrPhone }] });
-  if (!user) throw new Error("User not found");
+  if (!user) throw new Error('User not found');
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new Error("Invalid credentials");
+  if (!isMatch) throw new Error('Invalid credentials');
 
   const token = generateToken({ id: user._id, role: user.role });
   return { token, user };
 };
 
+
+
+
+
+
+export const updatePasswordService = async (
+  userId: string,
+  data: { email?: string; name?: string; phone?: string; newPassword: string }
+) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+
+  // Update password
+  const hashedPassword = await bcrypt.hash(data.newPassword, SALT_ROUNDS);
+  user.password = hashedPassword;
+
+  // Update other fields if provided
+  if (data.email) user.email = data.email;
+  if (data.name) user.name = data.name;
+  if (data.phone) user.phone = data.phone;
+
+  await user.save();
+  return { message: "User information updated successfully" };
+};
 // Fetch all users (for admin)
 export const getAllUsersService = async () => {
   return await User.find().select("-password"); 
