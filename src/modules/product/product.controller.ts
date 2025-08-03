@@ -3,7 +3,15 @@ import mongoose from "mongoose";
 import { Product } from "./Product.model";
 
 // Get all products (public)
-export const getProducts = async (req: Request, res: Response) => {
+export const getHomeProducts = async (req: Request, res: Response) => {
+  try {
+    const products = await Product.find().limit(4);
+    return res.json({ success: true, data: products });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Failed to fetch products" });
+  }
+};
+export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const products = await Product.find();
     return res.json({ success: true, data: products });
