@@ -10,16 +10,24 @@ const user_routes_1 = __importDefault(require("./modules/user/user.routes"));
 const product_routes_1 = __importDefault(require("./modules/product/product.routes"));
 const order_routes_1 = __importDefault(require("./modules/order/order.routes"));
 const cart_routes_1 = __importDefault(require("./modules/cart/cart.routes"));
+const errorHandler_1 = require("./modules/middlewares/errorHandler");
+const routeNotFoundHandler_1 = __importDefault(require("./modules/middlewares/routeNotFoundHandler"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+// Middlewares
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.use('/', () => {
-    console.log("This is Main server");
+// Optional root route (but fixed!)
+app.get('/', (_req, res) => {
+    res.send('🟢 E-Commerce Backend is Running!');
 });
+// API Routes
 app.use('/api/users', user_routes_1.default);
 app.use('/api/products', product_routes_1.default);
 app.use('/api/orders', order_routes_1.default);
 app.use('/api/cart', cart_routes_1.default);
+// Error Handlers (should come after all routes)
+app.use(errorHandler_1.errorHandler);
+app.use(routeNotFoundHandler_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map
