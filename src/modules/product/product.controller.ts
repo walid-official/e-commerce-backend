@@ -22,7 +22,7 @@ export const createProducts = async (req: Request, res: Response) => {
 
 
 // Get all products (public)
-export const getHomeProducts = async (req: Request, res: Response) => {
+export const getHomeProducts = async (_req: Request, res: Response) => {
   try {
     const products = await Product.find().limit(4);
     return res.json({ success: true, data: products });
@@ -30,7 +30,7 @@ export const getHomeProducts = async (req: Request, res: Response) => {
     return res.status(500).json({ success: false, message: "Failed to fetch products" });
   }
 };
-export const getAllProducts = async (req: Request, res: Response) => {
+export const getAllProducts = async (_req: Request, res: Response) => {
   try {
     const products = await Product.find();
     return res.json({ success: true, data: products });

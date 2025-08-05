@@ -8,12 +8,11 @@ export interface AppError extends Error {
 // Global error handler
 export const errorHandler = (
   err: AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   console.error("🔥 Error:", err.message);
-
   const status = err.statusCode || 500;
 
   res.status(status).json({

@@ -67,7 +67,7 @@ export const getCart = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllCartsForUsers = async (req: Request, res: Response) => {
+export const getAllCartsForUsers = async (_req: Request, res: Response) => {
   try {
     // All carts with user and product details
     const carts = await Cart.find({})
