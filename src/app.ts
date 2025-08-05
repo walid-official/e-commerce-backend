@@ -12,9 +12,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app.use('/', () => {
-//     console.log("This is Main server")
-// });
+app.use('/', () => {
+    console.log("This is Main server")
+});
 
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);

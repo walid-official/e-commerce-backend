@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { User } from "./User.model";
-import { generateToken } from "../../utils/jwt";
+import { generateToken } from "../utils/jwt";
 import mongoose from "mongoose";
 
 const SALT_ROUNDS = 10;
@@ -28,10 +28,6 @@ export const login = async (emailOrPhone: string, password: string) => {
   const token = generateToken({ id: user._id, role: user.role });
   return { token, user };
 };
-
-
-
-
 
 
 export const updatePasswordService = async (
@@ -62,4 +58,9 @@ export const getAllUsersService = async () => {
 export const getLoggedInUserService = async (userId: string) => {
   const userObjectId = new mongoose.Types.ObjectId(userId);
   return await User.findById(userObjectId).select("-password");
+};
+
+export const getUserByIdService = async (userId: string) => {
+  const user = await User.findById(userId).select("-password");
+  return user;
 };

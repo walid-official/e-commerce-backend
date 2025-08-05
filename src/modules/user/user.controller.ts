@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { getAllUsersService, getLoggedInUserService, login, signup, updatePasswordService } from "./user.service";
-import { AuthRequest } from "../../middlewares/auth.middleware";
+import { getAllUsersService, getLoggedInUserService, getUserByIdService, login, signup, updatePasswordService } from "./user.service";
+import { AuthRequest } from "../middlewares/auth.middleware";
+
 
 export const signupController = async (req: Request, res: Response) => {
   try {
@@ -66,5 +67,25 @@ export const getLoggedInUserController = async (req: AuthRequest, res: Response)
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch user profile" });
+  }
+};
+
+export const getUserByIdController = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
+    const user = await getUserByIdService(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 };

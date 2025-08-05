@@ -96,8 +96,6 @@ export const getUserAllCarts = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
 
-    console.log(userId)
-
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: "Invalid userId" });
     }

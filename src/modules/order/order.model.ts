@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface IOrder extends Document {
   userId: string;
   items: { productId: string; quantity: number }[];
-  location: { address: string; city: string; district: string; postalCode: string };
+  location: { address: string; city: string; district: string; postalCode?: string };
   totalAmount: number;
   paymentMethod: "COD";
   status: "pending" | "confirmed" | "delivered";
@@ -17,7 +17,7 @@ const orderSchema = new Schema<IOrder>({
     address: String,
     city: String,
     district: String,
-    postalCode: String
+    postalCode: { type: String, required: false }
   },
   totalAmount: { type: Number, required: true },
   paymentMethod: { type: String, enum: ["COD"], default: "COD" },
