@@ -13,12 +13,10 @@ export interface IOrder extends Document {
 const orderSchema = new Schema<IOrder>({
   userId: { type: String, required: true },
   items: [{ productId: String, quantity: Number }],
-  location: {
-    address: String,
-    city: String,
-    district: String,
-    postalCode: { type: String, required: false }
-  },
+ location: {
+  type: String,
+  required: true,
+},
   totalAmount: { type: Number, required: true },
   paymentMethod: { type: String, enum: ["COD"], default: "COD" },
   status: { type: String, enum: ["pending", "confirmed", "delivered"], default: "pending" },
